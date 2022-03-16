@@ -66,6 +66,9 @@ public class HomeFragment extends Fragment {
                 else {
                     adapter.addItem(news);
                 }
+//                for (int i = 0; i < adapter.getItemCount(); i++) {
+//                    adapter.drawBackground(i);
+//                }
             }
         });
 
@@ -89,7 +92,7 @@ public class HomeFragment extends Fragment {
     private void deleteNewsDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Вы уверены что хотите удалить данную запись?");
-        builder.setMessage("эээээ");
+        builder.setMessage(adapter.getItem(position).getTitle());
         builder.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
