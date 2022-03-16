@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private ArrayList<News> list;
@@ -36,9 +39,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if (position % 2 == 0) {
             holder.rootView.setBackgroundColor(Color.WHITE);
             holder.textTitle.setTextColor(Color.BLACK);
+            holder.date.setTextColor(Color.GRAY);
         } else {
             holder.rootView.setBackgroundColor(Color.BLACK);
             holder.textTitle.setTextColor(Color.WHITE);
+            holder.date.setTextColor(Color.WHITE);
         }
         holder.bind(list.get(position));
     }
@@ -75,12 +80,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     class NewsViewHolder extends RecyclerView.ViewHolder {
         LinearLayout rootView;
         private TextView textTitle;
+        private TextView date;
 
         public NewsViewHolder(@NonNull View itemView) {
 
             super(itemView);
             rootView = (LinearLayout) itemView.findViewById(R.id.back);
+
             textTitle = itemView.findViewById(R.id.textTitle);
+            date = itemView.findViewById(R.id.date_tv);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -98,6 +106,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public void bind(News news) {
             textTitle.setText(news.getTitle());
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd MMMM yyyy ");
+            Date resultdate = new Date(news.getCreatedAt());
+            date.setText(sdf.format(resultdate));
         }
     }
 
