@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private NewsAdapter adapter;
+    private int index;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,20 +52,38 @@ public class HomeFragment extends Fragment {
                 open();
             }
         });
+
+//        getParentFragmentManager().setFragmentResultListener("ne", getViewLifecycleOwner(), new FragmentResultListener() {
+//            @Override
+//            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+//                String newTitle = result.getString("title");
+//                index = (int) result.getInt("position");
+////                adapter.insertItem(news);
+//                if (adapter.getItemPosition(index) != -1){
+//                    adapter.getItem(index+1).setTitle(newTitle);
+//                }
+//            }
+//        });
+
         getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 News news = (News) result.getSerializable("news");
                 adapter.addItem(news);
                 Log.e("Home", "text = " + news.getTitle());
+                Log.e("Home", "listener object position = " + adapter.getItemObjPosition(news));
+                Log.e("Home", "new object position = " + result.getInt("new position"));
+                adapter.getItem(result.getInt("new position")).setTitle(news.getTitle());
+//                adapter.removeItem(result.getInt("new position"));
+                result.clear();
             }
         });
         binding.recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                News news = adapter.getItem(position);
-                Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
+//                News news = adapter.getItem(position);
+//                Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
                 editNews(position);
             }
 
@@ -77,7 +96,12 @@ public class HomeFragment extends Fragment {
 
     private void editNews(int position) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        navController.navigate(R.id.newsFragment);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("post", adapter.getItem(position));
+        bundle.putInt("position", adapter.getItemObjPosition(adapter.getItem(position)));
+//        Log.e("Home", "editing, object position = " + adapter.getItem(position));
+        Log.e("Home", "editing, object position position = " + adapter.getItemObjPosition(adapter.getItem(position)));
+        navController.navigate(R.id.newsFragment, bundle);
     }
 
     private void deleteNewsDialog(int position) {
