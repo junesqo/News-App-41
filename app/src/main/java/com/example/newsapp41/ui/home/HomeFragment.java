@@ -27,12 +27,13 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private NewsAdapter adapter;
     private int index;
+    private boolean isEditing = false;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new NewsAdapter();
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,42 +50,33 @@ public class HomeFragment extends Fragment {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                open();
+                isEditing = false;
+                open(null);
             }
         });
-
-//        getParentFragmentManager().setFragmentResultListener("ne", getViewLifecycleOwner(), new FragmentResultListener() {
-//            @Override
-//            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-//                String newTitle = result.getString("title");
-//                index = (int) result.getInt("position");
-////                adapter.insertItem(news);
-//                if (adapter.getItemPosition(index) != -1){
-//                    adapter.getItem(index+1).setTitle(newTitle);
-//                }
-//            }
-//        });
 
         getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 News news = (News) result.getSerializable("news");
-                adapter.addItem(news);
-                Log.e("Home", "text = " + news.getTitle());
-                Log.e("Home", "listener object position = " + adapter.getItemObjPosition(news));
-                Log.e("Home", "new object position = " + result.getInt("new position"));
-                adapter.getItem(result.getInt("new position")).setTitle(news.getTitle());
-//                adapter.removeItem(result.getInt("new position"));
-                result.clear();
+                Log.e("Home", "text getted = " + news.getTitle());
+                if (isEditing) {
+                    adapter.insertItem(news, index);
+                }
+                else {
+                    adapter.addItem(news);
+                }
             }
         });
+
         binding.recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                News news = adapter.getItem(position);
-//                Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
-                editNews(position);
+                News news = adapter.getItem(position);
+                isEditing = true;
+                open(news);
+                HomeFragment.this.index = position;
             }
 
             @Override
@@ -92,16 +84,6 @@ public class HomeFragment extends Fragment {
                 deleteNewsDialog(position);
             }
         });
-    }
-
-    private void editNews(int position) {
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("post", adapter.getItem(position));
-        bundle.putInt("position", adapter.getItemObjPosition(adapter.getItem(position)));
-//        Log.e("Home", "editing, object position = " + adapter.getItem(position));
-        Log.e("Home", "editing, object position position = " + adapter.getItemObjPosition(adapter.getItem(position)));
-        navController.navigate(R.id.newsFragment, bundle);
     }
 
     private void deleteNewsDialog(int position) {
@@ -124,9 +106,11 @@ public class HomeFragment extends Fragment {
         dialog.show();
     }
 
-    private void open() {
+    private void open(News news) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        navController.navigate(R.id.newsFragment);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("editTask" ,news );
+        navController.navigate(R.id.newsFragment, bundle);
     }
 
     @Override

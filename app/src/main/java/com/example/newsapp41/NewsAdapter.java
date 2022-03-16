@@ -43,8 +43,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyItemInserted(list.indexOf(news));
     }
 
-    public void insertItem(int position) {
-        list.indexOf(position);
+    public void insertItem(News news, int position) {
+        list.set(position, news);
+        notifyItemChanged(position);
     }
 
     public void removeItem(int position) {
@@ -52,22 +53,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyItemRemoved(list.indexOf(position));
     }
 
-    public void removeItemObj(News news){
-        list.remove(news);
-        notifyItemRemoved(list.indexOf(news));
-    }
-
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
-    }
-
-    public int getItemPosition(int position){
-        return list.indexOf(position);
-    }
-
-    public int getItemObjPosition(News news){
-        return list.indexOf(news);
     }
 
     public News getItem(int position) {
@@ -77,7 +65,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     class NewsViewHolder extends RecyclerView.ViewHolder {
         private TextView textTitle;
         public NewsViewHolder(@NonNull View itemView) {
-
 
             super(itemView);
             textTitle = itemView.findViewById(R.id.textTitle);

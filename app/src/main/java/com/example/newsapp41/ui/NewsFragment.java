@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.newsapp41.NewsAdapter;
 import com.example.newsapp41.R;
@@ -23,6 +24,7 @@ import com.example.newsapp41.models.News;
 
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
+    private News news;
     private NewsAdapter adapter;
     private Integer index = 0;
     private boolean isEditing = false;
@@ -45,78 +47,47 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            isEditing = true;
-            index = bundle.getInt("position");
-//            Integer position = bundle.getInt("pos");
-//            News news = adapter.getItem(position);
-//            binding.editText.setText(news.getTitle());
-            News news = (News) bundle.getSerializable("post");
-            binding.editText.setText(news.getTitle());
-            Log.e("News", "text = " + news.getTitle());
-            Log.e("News", "index = " + index);
-            Log.e("News", "bundle = " + isEditing);
-            binding.btnSave.setText("Edit");
-//            binding.btnSave.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Editable nextText = binding.editText.getText();
-//                    news.setTitle(nextText.toString());
-//                    close();
-//                }
-//            });
 
+        news = (News) requireArguments().getSerializable("editTask");
+        if (news != null) {
+            binding.editText.setText(news.getTitle());
+            Log.e("News", "title = " + news.getTitle());
+            binding.btnSave.setText("Edit");
         }
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (binding.btnSave.getText() == "Edit") {
-//                    edit((News) bundle.getSerializable("post"));
-                    save();
-                } else {
-                    save();
-                }
+                save();
             }
         });
     }
 
-//    private void edit(News news) {
-//        String text = binding.editText.getText().toString();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("title", text);
-//        adapter.removeItemObj(news);
-//        close();
-//    }
 
     private void save() {
-        String text = binding.editText.getText().toString();
-//        if (isEditing){
-//            News news = new News(text, System.currentTimeMillis());
-//            Bundle bundle = new Bundle();
-//            bundle.putString("title", text);
-//            bundle.putInt("position", index);
-//            getParentFragmentManager().setFragmentResult("ne", bundle);
-//        }
-//        else {
-//            News news = new News(text, System.currentTimeMillis());
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable("news", news);
-//            getParentFragmentManager().setFragmentResult("rk_news", bundle);
-//        }
-        News news = new News(text, System.currentTimeMillis());
         Bundle bundle = new Bundle();
+        String text = binding.editText.getText().toString();
+        if (text.isEmpty()) {
+            Toast.makeText(requireContext(), "Title is empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (news == null) {
+            news = new News(text, System.currentTimeMillis());
+            Toast.makeText(requireContext(), "News was successfully added", Toast.LENGTH_SHORT).show();
+        } else {
+            news.setTitle(text);
+            Toast.makeText(requireContext(), "News was updated", Toast.LENGTH_SHORT).show();
+
+        }
+        News news = new News(text, System.currentTimeMillis());
         bundle.putSerializable("news", news);
-        bundle.putInt("new position", index);
         getParentFragmentManager().setFragmentResult("rk_news", bundle);
-        Log.e("News", "bundle = " + isEditing);
-        Log.e("News", "text = " + text);
+        Log.e("News", "text setted = " + text);
         close();
     }
 
     private void close() {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        isEditing = false;
+
         binding.btnSave.setText("Save");
         navController.navigateUp();
     }
