@@ -66,9 +66,6 @@ public class HomeFragment extends Fragment {
                 else {
                     adapter.addItem(news);
                 }
-//                for (int i = 0; i < adapter.getItemCount(); i++) {
-//                    adapter.drawBackground(i);
-//                }
             }
         });
 
