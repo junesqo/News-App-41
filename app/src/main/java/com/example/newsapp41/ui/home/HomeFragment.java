@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment {
                 News news = adapter.getItem(position);
                 isEditing = true;
                 open(news);
+                HomeFragment.this.index = position;
             }
 
             @Override
