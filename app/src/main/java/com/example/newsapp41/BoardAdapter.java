@@ -57,6 +57,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 public void onClick(View view) {
                     Navigation.findNavController(view).popBackStack();
                 }
+
             });
         }
 
