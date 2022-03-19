@@ -55,7 +55,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
         public void bind(int position) {
             Board board = list.get(position);
-            textTitle.setText(board.getTitle());
+            // textTitle.setText(board.getTitle()); //<--here is the bag
             if (position == list.size()-1) {
                 btnStart.setVisibility(View.VISIBLE);
             } else {
