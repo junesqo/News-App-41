@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/textTitle"
+        android:id="@+id/newsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Title"

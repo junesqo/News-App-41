@@ -7,11 +7,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newsapp41.models.Board;
-
-import org.w3c.dom.Text;
+import com.example.newsapp41.ui.board.BoardFragment;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull int position) {
         holder.bind(position);
     }
 
@@ -49,13 +50,19 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textTitle = itemView.findViewById(R.id.textTitle);
+            textTitle = itemView.findViewById(R.id.newsTitle);
             btnStart = itemView.findViewById(R.id.btnStart);
+            btnStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Navigation.findNavController(view).popBackStack();
+                }
+            });
         }
 
         public void bind(int position) {
             Board board = list.get(position);
-            // textTitle.setText(board.getTitle()); //<--here is the bag
+            textTitle.setText(board.getTitle());
             if (position == list.size()-1) {
                 btnStart.setVisibility(View.VISIBLE);
             } else {

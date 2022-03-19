@@ -1,7 +1,6 @@
 package com.example.newsapp41;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,7 +85,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             super(itemView);
             rootView = (LinearLayout) itemView.findViewById(R.id.back);
 
-            textTitle = itemView.findViewById(R.id.textTitle);
+            textTitle = itemView.findViewById(R.id.newsTitle);
             date = itemView.findViewById(R.id.date_tv);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

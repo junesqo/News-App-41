@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1305" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/ic_profile_black_24dp.xml" value="0.1305" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/tab_indicator_default.xml" value="0.1435" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/tab_indicator_selected.xml" value="0.1435" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/tab_selector.xml" value="0.1435" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/activity_main.xml" value="0.19925857275254866" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_board.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_dashboard.xml" value="0.20416666666666666" />
