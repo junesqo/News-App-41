@@ -6,8 +6,10 @@ public class Board {
     private String desc;
     private int image;
 
-    public Board(String title) {
+    public Board(String title, String desc, int image) {
         this.title = title;
+        this.desc = desc;
+        this.image = image;
     }
 
     public String getTitle() {

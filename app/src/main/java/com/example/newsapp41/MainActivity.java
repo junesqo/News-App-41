@@ -19,6 +19,7 @@ import com.example.newsapp41.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private boolean boardWasShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        if (true) {
+        if (!boardWasShown) { // Реализую когда пройдем тему с Shared preferences
             navController.navigate(R.id.boardFragment);
+            boardWasShown = true;
         }
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
