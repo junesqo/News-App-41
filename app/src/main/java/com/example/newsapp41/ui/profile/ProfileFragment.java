@@ -20,14 +20,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.newsapp41.Prefs;
 import com.example.newsapp41.R;
 import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.databinding.FragmentProfileBinding;
 
+import java.net.URI;
+
 
 public class ProfileFragment extends Fragment {
-
 
     private FragmentProfileBinding binding;
     @Override
@@ -35,7 +37,6 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false);
-//        binding.imageView.setImageURI(Uri.parse(prefs.getImageUri()));
         return binding.getRoot();
     }
 
@@ -45,13 +46,10 @@ public class ProfileFragment extends Fragment {
 
         Prefs prefs = new Prefs(requireContext());
         binding.profileEditText.setText(prefs.getProfileEditText());
+        if (prefs.getImageUri()!=null){
+            Glide.with(binding.imageView).load(prefs.getImageUri()).into(binding.imageView);
+        }
         binding.imageView.setOnClickListener(view1 -> mGetContent.launch("image/*"));
-//        Prefs prefs = new Prefs(requireContext());
-//        binding.imageView.setImageURI(Uri.parse(prefs.getImageUri()));
-//        SharedPreferences settings = requireActivity().getSharedPreferences("key1", 0);
-//        String imageUriString = settings.getString("imageURI", null);
-//        Uri imageUri = Uri.parse(imageUriString);
-//        binding.imageView.setImageURI(imageUri);
 
         binding.profileEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,17 +69,16 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri result) {
             Prefs prefs = new Prefs(requireContext());
             if (result != null) {
-                binding.imageView.setImageURI(result);
-
-                prefs.saveImageUri(result.toString());
+                Glide.with(binding.imageView).load(result).into(binding.imageView);
+                prefs.saveImageUri(String.valueOf(result));
             }
         }
     });
-
 
 }

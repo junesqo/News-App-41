@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 public class Prefs {
 
@@ -23,7 +24,7 @@ public class Prefs {
 
     public void saveImageUri(String uriString) {
         preferences.edit().putString("profileImage", uriString).apply();
-        Log.e("Prefs", uriString);
+        preferences.edit().putBoolean("isProfileImageChanged", true).apply();
     }
 
     public String getImageUri(){
@@ -37,5 +38,9 @@ public class Prefs {
 
     public String getProfileEditText(){
         return preferences.getString("profileET", "");
+    }
+
+    public void clearPreferences(){
+        preferences.edit().clear().apply();
     }
 }

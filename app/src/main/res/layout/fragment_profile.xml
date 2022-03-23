@@ -18,6 +18,7 @@
 
     <EditText
         android:id="@+id/profileEditText"
+        android:hint="Введите ваш username"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
