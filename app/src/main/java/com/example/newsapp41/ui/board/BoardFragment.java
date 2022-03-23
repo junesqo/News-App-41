@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.newsapp41.BoardAdapter;
+import com.example.newsapp41.Prefs;
 import com.example.newsapp41.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -45,6 +46,8 @@ public class BoardFragment extends Fragment {
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
                 navController.popBackStack();
+                Prefs prefs = new Prefs(requireContext());
+                prefs.saveBoardState();
             }
         });
         tabLayout = view.findViewById(R.id.tabDots);

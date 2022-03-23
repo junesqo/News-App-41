@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        if (!boardWasShown) { // Реализую когда пройдем тему с Shared preferences
+        Prefs prefs = new Prefs(this);
+        if (!prefs.isBoardShown()) {
             navController.navigate(R.id.boardFragment);
-            boardWasShown = true;
         }
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
