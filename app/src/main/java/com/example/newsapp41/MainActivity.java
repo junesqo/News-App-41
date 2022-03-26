@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -70,10 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.clear_pref: prefs.clearPreferences();
+        switch (item.getItemId()) {
+            case R.id.clear_pref:
+                prefs.clearPreferences();
                 Toast.makeText(this, "Данные были очищены", Toast.LENGTH_SHORT).show();
-            return true;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

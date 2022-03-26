@@ -3,8 +3,11 @@ package com.example.newsapp41.ui.home;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -38,6 +42,10 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new NewsAdapter();
+        returnDatabase();
+    }
+
+    private void returnDatabase() {
         List<News> list = App.getDatabase().newsDao().getAll();
         adapter.addList(list);
     }
@@ -53,12 +61,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (adapter.getItemCount() != 0) {
-            binding.homeText.setVisibility(View.GONE);
-
-        } else {
-            binding.homeText.setVisibility(View.VISIBLE);
-        }
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +68,6 @@ public class HomeFragment extends Fragment {
                 open(null);
             }
         });
-
 
         getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
@@ -78,6 +79,28 @@ public class HomeFragment extends Fragment {
                 } else {
                     adapter.addItem(news);
                 }
+            }
+        });
+
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = binding.searchEditText.getText().toString();
+                Log.e("text watcher:", text);
+                adapter.retainList(App.getDatabase().newsDao().searchNews(text));
+                if (text.equals("")){
+                    returnDatabase();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -96,6 +119,7 @@ public class HomeFragment extends Fragment {
                 deleteNewsDialog(position);
             }
         });
+
     }
 
     private void deleteNewsDialog(int position) {

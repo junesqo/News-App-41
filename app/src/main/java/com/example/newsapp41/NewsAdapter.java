@@ -31,6 +31,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
         return new NewsViewHolder(view);
+
     }
 
     @Override
@@ -46,6 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
         holder.bind(list.get(position));
     }
+
 
     @Override
     public int getItemCount() {
@@ -81,6 +83,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyDataSetChanged();
     }
 
+    public void retainList(List<News> searchList) {
+        this.list.removeAll(list);
+        this.list.addAll(searchList);
+        notifyDataSetChanged();
+    }
+
+    public void sortAZ(List<News> sortList) {
+        this.list.removeAll(list);
+        this.list.addAll(sortList);
+        notifyDataSetChanged();
+    }
+
     class NewsViewHolder extends RecyclerView.ViewHolder {
         LinearLayout rootView;
         private TextView textTitle;
@@ -108,6 +122,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             });
         }
 
+
         public void bind(News news) {
             textTitle.setText(news.getTitle());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd MMMM yyyy ");
@@ -115,5 +130,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             date.setText(sdf.format(resultdate));
         }
     }
+
+
 
 }

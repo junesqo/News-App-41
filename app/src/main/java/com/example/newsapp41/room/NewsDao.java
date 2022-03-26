@@ -14,8 +14,13 @@ public interface NewsDao {
     @Query("SELECT * FROM news ORDER BY createdAt DESC")
     List<News> getAll();
 
+    @Query("SELECT * FROM news ORDER BY title")
+    List<News> getAZ();
+
     @Insert
     void insert(News news);
 
+    @Query("SELECT * FROM news WHERE title LIKE :search ORDER BY title")
+    List<News> searchNews(String search);
 
 }
