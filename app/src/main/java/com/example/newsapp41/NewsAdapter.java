@@ -16,6 +16,7 @@ import com.example.newsapp41.models.News;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private ArrayList<News> list;
@@ -67,12 +68,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyItemRemoved(list.indexOf(position));
     }
 
+    public News getItem(int position) {
+        return list.get(position);
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public News getItem(int position) {
-        return list.get(position);
+    public void addList(List<News> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     class NewsViewHolder extends RecyclerView.ViewHolder {

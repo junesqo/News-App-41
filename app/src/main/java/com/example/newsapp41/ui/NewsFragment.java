@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.newsapp41.App;
 import com.example.newsapp41.NewsAdapter;
 import com.example.newsapp41.R;
 import com.example.newsapp41.databinding.FragmentHomeBinding;
@@ -66,6 +67,7 @@ public class NewsFragment extends Fragment {
     private void save() {
         Bundle bundle = new Bundle();
         String text = binding.editText.getText().toString();
+
         if (text.isEmpty()) {
             Toast.makeText(requireContext(), "Title is empty", Toast.LENGTH_SHORT).show();
             return;
@@ -79,6 +81,7 @@ public class NewsFragment extends Fragment {
 
         }
         News news = new News(text, System.currentTimeMillis());
+        App.getDatabase().newsDao().insert(news);
         bundle.putSerializable("news", news);
         getParentFragmentManager().setFragmentResult("rk_news", bundle);
         Log.e("News", "text setted = " + text);

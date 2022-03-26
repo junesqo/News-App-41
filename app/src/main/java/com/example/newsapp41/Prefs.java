@@ -24,7 +24,6 @@ public class Prefs {
 
     public void saveImageUri(String uriString) {
         preferences.edit().putString("profileImage", uriString).apply();
-        preferences.edit().putBoolean("isProfileImageChanged", true).apply();
     }
 
     public String getImageUri(){
@@ -33,7 +32,6 @@ public class Prefs {
 
     public void saveProfileEditText(String etText){
         preferences.edit().putString("profileET", etText).apply();
-        Log.e("Prefs", etText);
     }
 
     public String getProfileEditText(){

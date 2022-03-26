@@ -17,11 +17,14 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.newsapp41.App;
 import com.example.newsapp41.NewsAdapter;
 import com.example.newsapp41.R;
 import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -35,6 +38,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new NewsAdapter();
+        List<News> list = App.getDatabase().newsDao().getAll();
+        adapter.addList(list);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,11 +55,9 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if (adapter.getItemCount() != 0) {
             binding.homeText.setVisibility(View.GONE);
-            Log.e("Home", "invisible");
 
         } else {
             binding.homeText.setVisibility(View.VISIBLE);
-            Log.e("Home", "visible");
         }
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override

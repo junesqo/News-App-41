@@ -44,10 +44,7 @@ public class BoardFragment extends Fragment {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-                navController.popBackStack();
-                Prefs prefs = new Prefs(requireContext());
-                prefs.saveBoardState();
+                close();
             }
         });
         tabLayout = view.findViewById(R.id.tabDots);
@@ -78,4 +75,12 @@ public class BoardFragment extends Fragment {
                     }
                 });
     }
+
+    private void close() {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        navController.navigateUp();
+        Prefs prefs = new Prefs(requireContext());
+        prefs.saveBoardState();
+    }
+
 }

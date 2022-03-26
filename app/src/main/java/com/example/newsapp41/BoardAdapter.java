@@ -21,7 +21,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     private ArrayList<Board> list;
 
+
     public BoardAdapter() {
+
         list = new ArrayList<>();
         list.add(new Board("Добро пожаловать", "В этом приложении ты можешь публиковать новости", R.drawable.board_1));
         list.add(new Board("Делись мнением", "Обсуждай новости с другими пользователями", R.drawable.board_4));
@@ -52,6 +54,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         private TextView textDesc;
 
         public ViewHolder(@NonNull View itemView) {
+
             super(itemView);
             boardPhoto = itemView.findViewById(R.id.boardPhoto);
             textTitle = itemView.findViewById(R.id.boardTitle);
