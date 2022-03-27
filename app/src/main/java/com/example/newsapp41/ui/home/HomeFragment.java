@@ -28,6 +28,7 @@ import com.example.newsapp41.R;
 import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
+import com.example.newsapp41.room.NewsDao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +51,11 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    private void returnDatabase() {
+        adapter.addList(list);
+        adapter.sortAZ(list);
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -59,14 +65,11 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort_by_alphabet:
-                adapter.sortAZ(App.getDatabase().newsDao().getAZ());
-                return true;
+                item.setTitle("Сортировать по дате");
+//                adapter.sortAZ(App.getDatabase().newsDao().getAZ());
+                return false;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void returnDatabase() {
-        adapter.addList(list);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

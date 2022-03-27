@@ -66,8 +66,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public void removeItem(int position) {
         list.remove(position);
-        notifyDataSetChanged();
+        App.getDatabase().newsDao().delete(getItem(position));
         notifyItemRemoved(list.indexOf(position));
+        notifyDataSetChanged();
     }
 
     public News getItem(int position) {
@@ -128,7 +129,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             date.setText(sdf.format(resultdate));
         }
     }
-
 
 
 }
