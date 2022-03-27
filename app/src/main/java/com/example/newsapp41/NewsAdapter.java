@@ -95,6 +95,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyDataSetChanged();
     }
 
+    public void filterList(ArrayList<News> filteredList) {
+        this.list = filteredList;
+        notifyDataSetChanged();
+    }
+
     class NewsViewHolder extends RecyclerView.ViewHolder {
         LinearLayout rootView;
         private TextView textTitle;

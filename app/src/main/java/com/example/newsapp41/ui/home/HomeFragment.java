@@ -27,6 +27,7 @@ import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private NewsAdapter adapter;
     private int index;
     private boolean isEditing = false;
+    private List<News> list = App.getDatabase().newsDao().getAll();
 
 
     @Override
@@ -46,7 +48,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void returnDatabase() {
-        List<News> list = App.getDatabase().newsDao().getAll();
         adapter.addList(list);
     }
 
@@ -90,17 +91,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String text = binding.searchEditText.getText().toString();
-                Log.e("text watcher:", text);
-                adapter.retainList(App.getDatabase().newsDao().searchNews(text));
-                if (text.equals("")){
-                    returnDatabase();
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                search(editable.toString());
             }
         });
 
@@ -119,6 +115,17 @@ public class HomeFragment extends Fragment {
                 deleteNewsDialog(position);
             }
         });
+
+    }
+
+    private void search(String searchText) {
+        ArrayList<News> filteredList = new ArrayList<>();
+        for (News item : list){
+            if (item.getTitle().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        adapter.filterList(filteredList);
 
     }
 
