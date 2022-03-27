@@ -83,20 +83,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyDataSetChanged();
     }
 
-    public void retainList(List<News> searchList) {
-        this.list.removeAll(list);
-        this.list.addAll(searchList);
-        notifyDataSetChanged();
-    }
-
     public void sortAZ(List<News> sortList) {
-        this.list.removeAll(list);
-        this.list.addAll(sortList);
+        this.list = (ArrayList<News>) sortList;
         notifyDataSetChanged();
     }
 
-    public void filterList(ArrayList<News> filteredList) {
-        this.list = filteredList;
+    public void filterNews(ArrayList<News> filteredNews) {
+        this.list = filteredNews;
         notifyDataSetChanged();
     }
 

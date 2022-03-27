@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,22 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         adapter = new NewsAdapter();
         returnDatabase();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort_by_alphabet:
+                adapter.sortAZ(App.getDatabase().newsDao().getAZ());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void returnDatabase() {
@@ -119,13 +137,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void search(String searchText) {
-        ArrayList<News> filteredList = new ArrayList<>();
-        for (News item : list){
+        ArrayList<News> filteredNews = new ArrayList<>();
+        for (News item : App.getDatabase().newsDao().getAZ()){
             if (item.getTitle().toLowerCase().contains(searchText.toLowerCase())) {
-                filteredList.add(item);
+                filteredNews.add(item);
             }
         }
-        adapter.filterList(filteredList);
+        adapter.filterNews(filteredNews);
 
     }
 
