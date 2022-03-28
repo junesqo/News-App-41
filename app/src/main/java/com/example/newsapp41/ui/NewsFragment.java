@@ -26,15 +26,13 @@ import com.example.newsapp41.models.News;
 
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
-    private News news;
-    private NewsAdapter adapter;
     private Integer index = 0;
     private boolean isEditing = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new NewsAdapter();
+       // adapter = new NewsAdapter(this);
     }
 
     @Override
@@ -49,41 +47,54 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        news = (News) requireArguments().getSerializable("editTask");
+
+        Bundle bundle = getArguments();
+        News news = (News) bundle.getSerializable("editTask");
+
+        if (news!=null) {
+            binding.editText.setText(news.getTitle());
+        }
+        binding.btnSave.setText(bundle.isEmpty() ? "save" : "edit");
+
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bundle.isEmpty()){
+                    save();
+                }else{
+                    update(bundle);
+                }
+            }
+        });
+
         if (news != null) {
             binding.editText.setText(news.getTitle());
             Log.e("News", "title = " + news.getTitle());
             binding.btnSave.setText("Edit");
         }
-        binding.btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save();
-            }
-        });
+
+    }
+
+    private void update(Bundle bundle) {
+        News news = (News) bundle.getSerializable("editTask");
+        news.setTitle(binding.editText.getText().toString());
+        App.getDatabase().newsDao().update(news);
+        close();
     }
 
 
     private void save() {
-        Bundle bundle = new Bundle();
+
         String text = binding.editText.getText().toString();
+
 
         if (text.isEmpty()) {
             Toast.makeText(requireContext(), "Title is empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (news == null) {
-            news = new News(text, System.currentTimeMillis());
-            Toast.makeText(requireContext(), "News was successfully added", Toast.LENGTH_SHORT).show();
-        } else {
-            news.setTitle(text);
-            Toast.makeText(requireContext(), "News was updated", Toast.LENGTH_SHORT).show();
 
-        }
         News news = new News(text, System.currentTimeMillis());
         App.getDatabase().newsDao().insert(news);
-        bundle.putSerializable("news", news);
-        getParentFragmentManager().setFragmentResult("rk_news", bundle);
         Log.e("News", "text setted = " + text);
         close();
     }

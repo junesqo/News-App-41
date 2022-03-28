@@ -9,11 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,49 +25,42 @@ import com.example.newsapp41.R;
 import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.interfaces.OnItemClickListener;
 import com.example.newsapp41.models.News;
-import com.example.newsapp41.room.NewsDao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnItemClickListener{
 
     private FragmentHomeBinding binding;
     private NewsAdapter adapter;
     private int index;
     private boolean isEditing = false;
-    private List<News> list = App.getDatabase().newsDao().getAll();
+    private List<News> list;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new NewsAdapter();
-        returnDatabase();
+        adapter = new NewsAdapter(this);
         setHasOptionsMenu(true);
     }
 
-    private void returnDatabase() {
-        adapter.addList(list);
-        adapter.sortAZ(list);
-    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.sort_by_alphabet:
-                item.setTitle("Сортировать по дате");
-//                adapter.sortAZ(App.getDatabase().newsDao().getAZ());
-                return false;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.sort_by_alphabet:
+//                item.setTitle("Сортировать по дате");
+////                adapter.sortAZ(App.getDatabase().newsDao().getAZ());
+//                return false;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -86,21 +76,10 @@ public class HomeFragment extends Fragment {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isEditing = false;
-                open(null);
-            }
-        });
 
-        getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                News news = (News) result.getSerializable("news");
-                Log.e("Home", "text getted = " + news.getTitle());
-                if (isEditing) {
-                    adapter.insertItem(news, index);
-                } else {
-                    adapter.addItem(news);
-                }
+                //isEditing = false;
+                addNews();
+                //open(null);
             }
         });
 
@@ -121,27 +100,34 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        list = App.getDatabase().newsDao().getAll();
+        adapter.addList(list);
         binding.recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+
+
+
+
+      /*  adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(News position) {
                 News news = adapter.getItem(position);
                 isEditing = true;
                 open(news);
-                HomeFragment.this.index = position;
+                //HomeFragment.this.index = position;
             }
+        });*/
 
-            @Override
-            public void onItemLongClick(int position) {
-                deleteNewsDialog(position);
-            }
-        });
+    }
 
+    private void addNews() {
+        Bundle bundle = new Bundle();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.newsFragment, bundle);
     }
 
     private void search(String searchText) {
         ArrayList<News> filteredNews = new ArrayList<>();
-        for (News item : App.getDatabase().newsDao().getAZ()){
+        for (News item : App.getDatabase().newsDao().getAll()){
             if (item.getTitle().toLowerCase().contains(searchText.toLowerCase())) {
                 filteredNews.add(item);
             }
@@ -150,14 +136,16 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void deleteNewsDialog(int position) {
+    private void deleteNewsDialog(News position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Вы уверены что хотите удалить данную запись?");
-        builder.setMessage(adapter.getItem(position).getTitle());
+        builder.setMessage(position.getTitle());
         builder.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                adapter.removeItem(position);
+                App.getDatabase().newsDao().delete(position);
+                list=App.getDatabase().newsDao().getAll();
+                adapter.addList(list);
             }
         });
         builder.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
@@ -181,5 +169,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onItemClick(News position) {
+        open(position);
+    }
+
+    @Override
+    public void onItemLongClick(News position) {
+        deleteNewsDialog(position);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.newsapp41;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +16,18 @@ import com.example.newsapp41.models.News;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
-    private ArrayList<News> list;
+    private List<News> list;
     private OnItemClickListener onItemClickListener;
 
-    public NewsAdapter() {
+    public NewsAdapter(OnItemClickListener onItemClickListener) {
         list = new ArrayList<>();
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -35,7 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (position % 2 == 0) {
             holder.rootView.setBackgroundColor(Color.WHITE);
             holder.textTitle.setTextColor(Color.BLACK);
@@ -46,6 +50,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             holder.date.setTextColor(Color.WHITE);
         }
         holder.bind(list.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClick(list.get(position));
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemClickListener.onItemLongClick(list.get(position));
+
+                return false;
+            }
+        });
     }
 
 
@@ -54,33 +72,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return list.size();
     }
 
-    public void addItem(News news) {
-        list.add(0, news);
-        notifyItemInserted(list.indexOf(news));
-    }
+
 
     public void insertItem(News news, int position) {
         list.set(position, news);
         notifyItemChanged(position);
     }
 
-    public void removeItem(int position) {
-        list.remove(position);
-        App.getDatabase().newsDao().delete(getItem(position));
-        notifyItemRemoved(list.indexOf(position));
-        notifyDataSetChanged();
-    }
 
-    public News getItem(int position) {
+ /*   public News getItem(News position) {
         return list.get(position);
-    }
+    }*/
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
     public void addList(List<News> list) {
-        this.list.addAll(list);
+        Comparator<News> comparator = Comparator.comparing(News::getCreatedAt);
+        this.list=list;
+        this.list.sort(comparator);
+        Collections.reverse(this.list);
         notifyDataSetChanged();
     }
 
@@ -106,8 +118,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             textTitle = itemView.findViewById(R.id.newsTitle);
             date = itemView.findViewById(R.id.date_tv);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
+//            itemView.setOnClickListener(new View.OnClickListener() {
+           /*     @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(getAdapterPosition());
                 }
@@ -118,7 +130,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     onItemClickListener.onItemLongClick(getAdapterPosition());
                     return false;
                 }
-            });
+            });*/
         }
 
 
