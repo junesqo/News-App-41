@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,19 +49,24 @@ public class HomeFragment extends Fragment implements OnItemClickListener{
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.news_menu, menu);
+        menu.removeItem(R.id.sort_by_alphabet);
+        menu.removeItem(R.id.clear_pref);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.sort_by_alphabet:
-//                item.setTitle("Сортировать по дате");
-////                adapter.sortAZ(App.getDatabase().newsDao().getAZ());
-//                return false;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort:
+                item.setTitle("Сортировать по алфавиту");
+                list = App.getDatabase().newsDao().getAZ();
+                adapter.sortAZ(list);
+                return true;
+            default:
+                return false;
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -105,17 +111,6 @@ public class HomeFragment extends Fragment implements OnItemClickListener{
         binding.recyclerView.setAdapter(adapter);
 
 
-
-
-      /*  adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(News position) {
-                News news = adapter.getItem(position);
-                isEditing = true;
-                open(news);
-                //HomeFragment.this.index = position;
-            }
-        });*/
 
     }
 

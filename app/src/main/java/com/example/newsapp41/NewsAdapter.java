@@ -97,7 +97,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     public void sortAZ(List<News> sortList) {
-        this.list = (ArrayList<News>) sortList;
+        this.list = sortList;
         notifyDataSetChanged();
     }
 

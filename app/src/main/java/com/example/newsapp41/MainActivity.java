@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.settings_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -76,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 prefs.clearPreferences();
                 Toast.makeText(this, "Данные были очищены", Toast.LENGTH_SHORT).show();
                 return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 }
