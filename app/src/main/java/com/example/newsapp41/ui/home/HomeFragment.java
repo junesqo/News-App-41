@@ -30,7 +30,7 @@ import com.example.newsapp41.models.News;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnItemClickListener{
+public class HomeFragment extends Fragment implements OnItemClickListener {
 
     private FragmentHomeBinding binding;
     private NewsAdapter adapter;
@@ -82,10 +82,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener{
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //isEditing = false;
                 addNews();
-                //open(null);
             }
         });
 
@@ -110,8 +107,6 @@ public class HomeFragment extends Fragment implements OnItemClickListener{
         adapter.addList(list);
         binding.recyclerView.setAdapter(adapter);
 
-
-
     }
 
     private void addNews() {
@@ -122,7 +117,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener{
 
     private void search(String searchText) {
         ArrayList<News> filteredNews = new ArrayList<>();
-        for (News item : App.getDatabase().newsDao().getAll()){
+        for (News item : App.getDatabase().newsDao().getAll()) {
             if (item.getTitle().toLowerCase().contains(searchText.toLowerCase())) {
                 filteredNews.add(item);
             }
@@ -139,7 +134,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 App.getDatabase().newsDao().delete(position);
-                list=App.getDatabase().newsDao().getAll();
+                list = App.getDatabase().newsDao().getAll();
                 adapter.addList(list);
             }
         });

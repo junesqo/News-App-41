@@ -66,23 +66,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         });
     }
 
-
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-
-
-    public void insertItem(News news, int position) {
-        list.set(position, news);
-        notifyItemChanged(position);
-    }
-
-
- /*   public News getItem(News position) {
-        return list.get(position);
-    }*/
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -118,19 +106,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             textTitle = itemView.findViewById(R.id.newsTitle);
             date = itemView.findViewById(R.id.date_tv);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-           /*     @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(getAdapterPosition());
-                }
-            });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    onItemClickListener.onItemLongClick(getAdapterPosition());
-                    return false;
-                }
-            });*/
         }
 
 
