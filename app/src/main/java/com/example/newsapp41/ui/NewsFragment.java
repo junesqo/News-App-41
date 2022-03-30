@@ -87,7 +87,6 @@ public class NewsFragment extends Fragment {
 
         String text = binding.editText.getText().toString();
 
-
         if (text.isEmpty()) {
             Toast.makeText(requireContext(), "Title is empty", Toast.LENGTH_SHORT).show();
             return;

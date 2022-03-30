@@ -25,10 +25,8 @@ public interface NewsDao {
     @Update
     void update(News news);
 
-
-
-    @Query("SELECT * FROM news WHERE title LIKE :search ORDER BY title")
-    List<News> searchNews(String search);
+//    @Query("SELECT * FROM news WHERE title LIKE :search ORDER BY title")
+//    List<News> searchNews(String search);
 
     @Delete
     void delete(News news);
