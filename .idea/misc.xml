@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/circle.xml" value="0.1435" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1305" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/ic_profile_black_24dp.xml" value="0.1305" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/drawable/tab_indicator_default.xml" value="0.1435" />
@@ -13,9 +14,10 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_dashboard.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_news.xml" value="0.1" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_profile.xml" value="0.16" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/item_news.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/pager_board.xml" value="0.25" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/layout/shot_item.xml" value="0.2028985507246377" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/menu/news_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp41/app/src/main/res/menu/settings_menu.xml" value="0.25" />

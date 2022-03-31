@@ -1,7 +1,5 @@
 package com.example.newsapp41.ui.profile;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,11 +9,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +20,15 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.newsapp41.Prefs;
 import com.example.newsapp41.R;
-import com.example.newsapp41.databinding.FragmentHomeBinding;
+import com.example.newsapp41.ShotsAdapter;
 import com.example.newsapp41.databinding.FragmentProfileBinding;
 
-import java.net.URI;
+import java.util.ArrayList;
 
 
 public class ProfileFragment extends Fragment {
+
+    private ArrayList<Integer> photos;
 
     private FragmentProfileBinding binding;
     @Override
@@ -67,6 +66,24 @@ public class ProfileFragment extends Fragment {
                 prefs.saveProfileEditText(binding.profileEditText.getText().toString());
             }
         });
+        loadData();
+        ShotsAdapter shotsAdapter = new ShotsAdapter(photos);
+        binding.profileShotsRecycler.setAdapter(shotsAdapter);
+        binding.profileShotsRecycler.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+    }
+
+    private void loadData() {
+        photos = new ArrayList<Integer>();
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
+        photos.add(R.drawable.image);
     }
 
 
@@ -75,7 +92,7 @@ public class ProfileFragment extends Fragment {
         public void onActivityResult(Uri result) {
             Prefs prefs = new Prefs(requireContext());
             if (result != null) {
-                Glide.with(binding.imageView).load(result).into(binding.imageView);
+                Glide.with(binding.imageView).load(result).circleCrop().into(binding.imageView);
                 prefs.saveImageUri(String.valueOf(result));
             }
         }
