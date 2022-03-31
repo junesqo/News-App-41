@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.newsapp41.App;
 import com.example.newsapp41.NewsAdapter;
 import com.example.newsapp41.R;
@@ -89,6 +91,10 @@ public class NewsFragment extends Fragment {
 
         if (text.isEmpty()) {
             Toast.makeText(requireContext(), "Title is empty", Toast.LENGTH_SHORT).show();
+            YoYo.with(Techniques.Shake)
+                    .duration(700)
+                    .repeat(1)
+                    .playOn(binding.editText);
             return;
         }
 
