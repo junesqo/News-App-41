@@ -20,6 +20,8 @@ public class News implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public News() {
+    }
 
     public int getId() {
         return id;

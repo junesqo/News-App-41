@@ -24,17 +24,21 @@ import com.example.newsapp41.R;
 import com.example.newsapp41.databinding.FragmentHomeBinding;
 import com.example.newsapp41.databinding.FragmentNewsBinding;
 import com.example.newsapp41.models.News;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
     private Integer index = 0;
     private boolean isEditing = false;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // adapter = new NewsAdapter(this);
+        // adapter = new NewsAdapter(this);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class NewsFragment extends Fragment {
         Bundle bundle = getArguments();
         News news = (News) bundle.getSerializable("editTask");
 
-        if (news!=null) {
+        if (news != null) {
             binding.editText.setText(news.getTitle());
         }
         binding.btnSave.setText(bundle.isEmpty() ? "save" : "edit");
@@ -61,9 +65,9 @@ public class NewsFragment extends Fragment {
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (bundle.isEmpty()){
+                if (bundle.isEmpty()) {
                     save();
-                }else{
+                } else {
                     update(bundle);
                 }
             }
@@ -102,8 +106,9 @@ public class NewsFragment extends Fragment {
         App.getDatabase().newsDao().insert(news);
         Log.e("News", "text setted = " + text);
         close();
-    }
+        db.collection("news").add(news);
 
+    }
     private void close() {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
 
