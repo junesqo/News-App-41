@@ -34,8 +34,6 @@ public class DashboardFragment extends Fragment implements OnItemClickListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +53,11 @@ public class DashboardFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        list = App.getDatabase().newsDao().getAll();
         db.collection("news").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     list = task.getResult().toObjects(News.class);
-                    Log.e("TAG", String.valueOf(list.size()));
                     adapter.filterNews((ArrayList<News>) list);
                 } else {
                     Log.d("TAG", "Error getting documents: ", task.getException());

@@ -30,15 +30,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
-    private Integer index = 0;
-    private boolean isEditing = false;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // adapter = new NewsAdapter(this);
+
     }
 
     @Override
@@ -104,9 +102,8 @@ public class NewsFragment extends Fragment {
 
         News news = new News(text, System.currentTimeMillis());
         App.getDatabase().newsDao().insert(news);
-        Log.e("News", "text setted = " + text);
-        close();
         db.collection("news").add(news);
+        close();
 
     }
     private void close() {
